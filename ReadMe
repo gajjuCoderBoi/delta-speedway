@@ -1,0 +1,27 @@
+#Docker Network
+docker network create --driver bridge networkSunMak
+
+
+docker run --name Dockerdelta_speedway_postgres  --network networkdelta -e POSTGRES_PASSWORD=open02 -e POSTGRES_DB=docker_delta_database -d postgres
+
+docker run --name DockerDeltaAPI --network networkdelta -e PORT=8080 -e SPRING_PROFILES_ACTIVE=docker -p 9000:8080 -d  delta_service:dev
+
+docker network ls
+
+docker network create --driver bridge networkdelta
+
+docker run --name Dockerdelta_speedway_postgres  --network networkdelta -e POSTGRES_PASSWORD=open02 -e POSTGRES_DB=docker_delta_database
+ -d postgres
+
+docker build -t docker run --name Dockerdelta_speedway_postgres  --network networkdelta -e POSTGRES_PASSWORD=open02 -e POSTGRES_
+DB=docker_delta_database -d postgres
+
+docker build -t delta_service:dev .
+
+docker run --name DockerDeltaAPI --network networkdelta -e PORT=8080 -e SPRING_PROFILES_ACTIVE=docker -p 9000:8080 -d
+delta_service:dev
+
+docker logs -f DockerDeltaAPI
+
+
+
