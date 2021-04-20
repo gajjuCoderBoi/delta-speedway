@@ -2,6 +2,8 @@ package com.cognizant.deltaspeedway.integration;
 
 import com.cognizant.deltaspeedway.entity.RacecarEntity;
 import com.cognizant.deltaspeedway.repository.RaceCarRepository;
+import com.cognizant.deltaspeedway.request.CarRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,7 @@ public class DeltaRaceCarIT {
 
     @Test
     @DirtiesContext
-    public void getAllRaceCarTest() throws Exception {
+    public void getAllRaceCarTest_Success() throws Exception {
         raceCarRepository.saveAll(Arrays.asList(
                 RacecarEntity.builder()
                         .make("Galvanize")
@@ -57,6 +59,24 @@ public class DeltaRaceCarIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(2)))
+                .andDo(print());
+    }
+
+    @Test
+    @DirtiesContext
+    public void createRaceCar_Success() throws Exception {
+        CarRequest testCarRequest = CarRequest.builder()
+                .make("Cognizant")
+                .model("2021")
+                .build();
+        RequestBuilder postCar = post("/racecar")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(testCarRequest));
+
+        mockMvc.perform(postCar)
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("message").value("Car has been created."))
                 .andDo(print());
     }
 }
