@@ -19,7 +19,9 @@ public class DriversTestIT {
 
     @Autowired
     MockMvc mockMvc;
-    ObjectMapper objectMapper;
+    @Autowired
+    ObjectMapper   objectMapper;
+
     @Test
     public void getDriverByName() throws Exception {
         DriverDeltaDto vettel=new DriverDeltaDto("vettel");
@@ -42,6 +44,7 @@ public class DriversTestIT {
         mockMvc.perform(get(String.format("/drivers/%s", vettel.getName()))
         ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("vettel"));
+
 
     }
 
