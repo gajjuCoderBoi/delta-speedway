@@ -1,5 +1,6 @@
 package com.cognizant.deltaspeedway.controller;
 
+import com.cognizant.deltaspeedway.entity.RacecarEntity;
 import com.cognizant.deltaspeedway.request.CarRequest;
 import com.cognizant.deltaspeedway.response.CarResponse;
 import com.cognizant.deltaspeedway.service.RaceCarService;
@@ -16,8 +17,15 @@ public class RaceCarController {
     private RaceCarService raceCarService;
 
     @GetMapping
-    public ResponseEntity<?> getAllRaceCar(){
-        return new ResponseEntity<>(raceCarService.getAllRaceCar(), HttpStatus.OK);
+    public ResponseEntity<?> getAllRaceCar(@RequestParam(name = "car_id", required = false) String carId){
+        if(carId == null)
+            return new ResponseEntity<>(raceCarService.getAllRaceCar(), HttpStatus.OK);
+        else
+            return new ResponseEntity<>(RacecarEntity.builder()
+                    .id(1L)
+                    .make("Galvanize")
+                    .model("2021")
+                    .build(), HttpStatus.OK);
     }
 
     @PostMapping

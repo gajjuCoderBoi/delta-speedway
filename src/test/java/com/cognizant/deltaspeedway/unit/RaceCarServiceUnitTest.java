@@ -16,8 +16,10 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -85,6 +87,17 @@ public class RaceCarServiceUnitTest {
         assertEquals(actualResponse.getMessage(), "Car has been created.");
         assertEquals(actualResponse.getStatus(), HttpStatus.CREATED);
 
+
+    }
+
+    @Test
+    public void getCarById(){
+        when(raceCarRepository.findById(anyLong())).thenReturn(Optional.ofNullable(mockRaceCars.get(0)));
+        RacecarEntity actual = raceCarService.getCarById(1L);
+
+        assertNotNull(actual);
+        assertEquals(actual.getMake(), "Galvanize");
+        assertEquals(actual.getModel(), "2021");
 
     }
 }

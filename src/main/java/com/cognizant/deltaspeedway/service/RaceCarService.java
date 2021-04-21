@@ -32,4 +32,9 @@ public class RaceCarService {
                 .status(HttpStatus.CREATED)
                 .build();
     }
+
+    public RacecarEntity getCarById(Long carId) {
+        return raceCarRepository.findById(carId).orElse(null);
+    }
+
 }

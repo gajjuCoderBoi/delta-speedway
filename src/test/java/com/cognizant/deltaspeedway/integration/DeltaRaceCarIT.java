@@ -79,4 +79,32 @@ public class DeltaRaceCarIT {
                 .andExpect(jsonPath("message").value("Car has been created."))
                 .andDo(print());
     }
+
+    @Test
+    @DirtiesContext
+    public void getRaceCarByIdTest_Success() throws Exception {
+        raceCarRepository.saveAll(Arrays.asList(
+                RacecarEntity.builder()
+                        .id(1L)
+                        .make("Galvanize")
+                        .model("2021")
+                        .build(),
+                RacecarEntity.builder()
+                        .id(2L)
+                        .make("Cognizant")
+                        .model("2021")
+                        .build()
+        ));
+
+        RequestBuilder getRaceCarById = get("/racecar")
+                .param("car_id", "1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(getRaceCarById)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("make").value("Galvanize"))
+                .andExpect(jsonPath("model").value("2021"))
+                .andDo(print());
+    }
 }

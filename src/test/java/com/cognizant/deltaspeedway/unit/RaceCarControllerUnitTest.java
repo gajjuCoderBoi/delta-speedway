@@ -97,4 +97,22 @@ public class RaceCarControllerUnitTest {
                 .andExpect(jsonPath("message").value("Car has been created."))
                 .andDo(print());
     }
+
+    @Test
+    @DirtiesContext
+    public void getRaceCarByIdTest_Success() throws Exception {
+
+        RequestBuilder getRaceCarById = get("/racecar")
+                .param("car_id", "1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
+
+        when(raceCarService.getCarById(anyLong())).thenReturn(mockRaceCars.get(0));
+
+        mockMvc.perform(getRaceCarById)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("make").value("Galvanize"))
+                .andExpect(jsonPath("model").value("2021"))
+                .andDo(print());
+    }
 }
