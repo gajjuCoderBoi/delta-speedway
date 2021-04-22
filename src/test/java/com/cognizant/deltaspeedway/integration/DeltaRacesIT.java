@@ -72,6 +72,21 @@ public class DeltaRacesIT {
                 .andExpect(jsonPath("$", hasSize(0)));
     }
 
+    @Test
+    public void getAllRacesWithOneRaceDetail_Success() throws Exception {
+        postARaceDetail();
+        RequestBuilder getAllRaces = get("/races")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result =  mockMvc.perform(getAllRaces)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andReturn()
+        ;
+        assertThat(result.getResponse().getContentAsString(), is(mapper.writeValueAsString(List.of(raceDto))));
+    }
+
 
 
     private MvcResult postARaceDetail() throws Exception {
