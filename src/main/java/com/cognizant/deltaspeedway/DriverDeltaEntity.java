@@ -19,9 +19,9 @@ public class DriverDeltaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
-    String name;
+    String lastName;
 
-    public DriverDeltaEntity (String name){
-        this.name = name;
+    public DriverDeltaEntity (String lastName){
+        this.lastName = lastName;
     }
 }

@@ -3,9 +3,6 @@ package com.cognizant.deltaspeedway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class DriverDeltaService {
     @Autowired
@@ -14,13 +11,13 @@ public class DriverDeltaService {
     public Object getDriverDetails(String name){
         DriverDeltaEntity response = driverDeltaRepository.findByName(name);
 
-            return  new DriverDeltaDto(response.getName())   ;
+            return  new DriverDeltaDto(response.getLastName())   ;
         }
 
 
 
     public void saveDriver(DriverDeltaDto driverDeltaDto) {
-        driverDeltaRepository.save(new DriverDeltaEntity(driverDeltaDto.getName()));
+        driverDeltaRepository.save(new DriverDeltaEntity(driverDeltaDto.getFirstName()));
     }
 }
 
