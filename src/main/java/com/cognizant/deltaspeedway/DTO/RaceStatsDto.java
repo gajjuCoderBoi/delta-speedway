@@ -1,4 +1,4 @@
-package com.cognizant.deltaspeedway.request;
+package com.cognizant.deltaspeedway.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RaceStatsRequest {
+public class RaceStatsDto {
     private String name;
     private String city;
 }

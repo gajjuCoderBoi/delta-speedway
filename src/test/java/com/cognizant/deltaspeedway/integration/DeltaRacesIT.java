@@ -1,12 +1,11 @@
 package com.cognizant.deltaspeedway.integration;
 
-import com.cognizant.deltaspeedway.entity.RacecarEntity;
-import com.cognizant.deltaspeedway.repository.RaceCarRepository;
-import com.cognizant.deltaspeedway.request.CarRequest;
-import com.cognizant.deltaspeedway.request.RaceOutcomesRequest;
-import com.cognizant.deltaspeedway.request.RaceRequest;
-import com.cognizant.deltaspeedway.request.RaceStatsRequest;
+import com.cognizant.deltaspeedway.DTO.RaceOutcomesDto;
+import com.cognizant.deltaspeedway.DTO.RaceDto;
+import com.cognizant.deltaspeedway.DTO.RaceStatsDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -19,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,23 +42,23 @@ public class DeltaRacesIT {
     @Autowired
     private ObjectMapper mapper;
 
+    private static RaceDto raceDto;
+
+    @BeforeAll
+    static void setup(){
+        raceDto = RaceDto.builder()
+                .stats(RaceStatsDto.builder().name("Race1").city("Daytona").build())
+                .participants(List.of("David", "Wes", "Jose", "Mayank"))
+                .outcomes(RaceOutcomesDto.builder().firstPositionName("Jose").secondPositionName("Mayank").thirdPositionName("David").build())
+                .build();
+    }
+
     @Test
     public void createRaceDetail_Success() throws Exception {
-        RaceRequest raceRequest = RaceRequest.builder()
-                .stats(RaceStatsRequest.builder().name("Race1").city("Daytona").build())
-                .participants(List.of("David", "Wes", "Jose", "Mayank"))
-                .outcomes(RaceOutcomesRequest.builder().firstPositionName("Jose").secondPositionName("Mayank").thirdPositionName("David").build())
-                .build();
-        RequestBuilder postRaces = post("/races")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(raceRequest));
 
-        MvcResult mvcResult = mockMvc.perform(postRaces)
-                .andExpect(status().isCreated())
-                .andReturn();
+        MvcResult mvcResult = postARaceDetail();
 
-        assertThat(mvcResult.getResponse().getContentAsString(), is(mapper.writeValueAsString(raceRequest)));
+        assertThat(mvcResult.getResponse().getContentAsString(), is(mapper.writeValueAsString(raceDto)));
     }
 
     @Test
@@ -72,5 +70,19 @@ public class DeltaRacesIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+
+
+    private MvcResult postARaceDetail() throws Exception {
+
+        RequestBuilder postRaces = post("/races")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(raceDto));
+
+        return mockMvc.perform(postRaces)
+                .andExpect(status().isCreated())
+                .andReturn();
     }
 }

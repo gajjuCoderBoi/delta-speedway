@@ -1,6 +1,6 @@
 package com.cognizant.deltaspeedway.controller;
 
-import com.cognizant.deltaspeedway.request.RaceRequest;
+import com.cognizant.deltaspeedway.DTO.RaceDto;
 import com.cognizant.deltaspeedway.service.RaceStatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +15,8 @@ public class RaceStatsController {
     RaceStatsService raceStatsService;
 
     @PostMapping
-    public ResponseEntity<?> createRace(@RequestBody RaceRequest raceRequest) {
-        RaceRequest createdRace = raceStatsService.createRace(raceRequest);
+    public ResponseEntity<?> createRace(@RequestBody RaceDto raceDto) {
+        RaceDto createdRace = raceStatsService.createRace(raceDto);
         return new ResponseEntity<>(createdRace, HttpStatus.CREATED);
     }
 

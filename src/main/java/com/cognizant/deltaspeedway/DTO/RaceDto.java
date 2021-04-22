@@ -1,4 +1,4 @@
-package com.cognizant.deltaspeedway.request;
+package com.cognizant.deltaspeedway.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RaceRequest {
-    private RaceStatsRequest stats;
+public class RaceDto {
+    private RaceStatsDto stats;
     private List<String> participants;
-    private RaceOutcomesRequest outcomes;
+    private RaceOutcomesDto outcomes;
 }
