@@ -12,6 +12,6 @@ public class RaceStatsController {
 
     @PostMapping
     public ResponseEntity createRace(@RequestBody RaceRequest raceRequest) {
-        return new ResponseEntity<>("Stats has been created.", HttpStatus.CREATED);
+        return new ResponseEntity<>(raceRequest, HttpStatus.CREATED);
     }
 }

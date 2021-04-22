@@ -16,12 +16,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -53,8 +56,10 @@ public class DeltaRacesIT {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(raceRequest));
 
-        mockMvc.perform(postRaces)
+        MvcResult mvcResult = mockMvc.perform(postRaces)
                 .andExpect(status().isCreated())
-                .andDo(print());
+                .andReturn();
+
+        assertThat(mvcResult.getResponse().getContentAsString(), is(mapper.writeValueAsString(raceRequest)));
     }
 }
