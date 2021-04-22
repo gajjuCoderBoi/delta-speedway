@@ -15,9 +15,14 @@ public class RaceStatsController {
     RaceStatsService raceStatsService;
 
     @PostMapping
-    public ResponseEntity createRace(@RequestBody RaceRequest raceRequest) {
+    public ResponseEntity<?> createRace(@RequestBody RaceRequest raceRequest) {
         RaceRequest createdRace = raceStatsService.createRace(raceRequest);
         return new ResponseEntity<>(createdRace, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllRaceDetails() {
+        return new ResponseEntity<>(raceStatsService.getAllRaceDetails(), HttpStatus.OK);
     }
 }
 

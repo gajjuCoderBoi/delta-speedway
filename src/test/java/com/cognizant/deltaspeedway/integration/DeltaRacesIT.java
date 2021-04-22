@@ -45,7 +45,7 @@ public class DeltaRacesIT {
     private ObjectMapper mapper;
 
     @Test
-    public void createRaceCar_Success() throws Exception {
+    public void createRaceDetail_Success() throws Exception {
         RaceRequest raceRequest = RaceRequest.builder()
                 .stats(RaceStatsRequest.builder().name("Race1").city("Daytona").build())
                 .participants(List.of("David", "Wes", "Jose", "Mayank"))
@@ -61,5 +61,16 @@ public class DeltaRacesIT {
                 .andReturn();
 
         assertThat(mvcResult.getResponse().getContentAsString(), is(mapper.writeValueAsString(raceRequest)));
+    }
+
+    @Test
+    public void getAllRaces_Success() throws Exception {
+        RequestBuilder getAllRaces = get("/races")
+                .accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(getAllRaces)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 }

@@ -8,6 +8,9 @@ import com.cognizant.deltaspeedway.request.RaceRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+
 @Service
 public class RaceStatsService {
     @Autowired
@@ -30,5 +33,9 @@ public class RaceStatsService {
                 .build();
         raceRepository.save(entity);
         return raceRequest;
+    }
+
+    public List<RaceRequest> getAllRaceDetails() {
+        return Collections.emptyList();
     }
 }
