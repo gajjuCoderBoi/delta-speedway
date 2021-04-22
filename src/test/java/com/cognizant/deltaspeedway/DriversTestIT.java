@@ -32,7 +32,6 @@ public class DriversTestIT {
         CarsDto carCondor345=new CarsDto("Condor","Corvette","2022","27","AVAILABLE",189);
 
         List<CarsDto> carsVettel=new ArrayList<>();
-
         carsVettel.add(carCondor);
         List<CarsDto> carsHamilton=new ArrayList<>();
         carsHamilton.add(carCondor123);

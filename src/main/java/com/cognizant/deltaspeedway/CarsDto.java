@@ -13,5 +13,8 @@ public class CarsDto {
      String year;
      String owner;
      String status;
-     Integer top_speed;
+     int top_speed;
+
+     public CarsDto(String nickname) {
+     }
 }

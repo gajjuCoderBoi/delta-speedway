@@ -10,7 +10,6 @@ public class DriverDeltaService {
 
     public Object getDriverDetails(String name){
         DriverDeltaEntity response = driverDeltaRepository.findByName(name);
-
             return  new DriverDeltaDto(response.getLastName())   ;
         }
 
