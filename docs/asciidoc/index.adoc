@@ -1,0 +1,25 @@
+Racecar Service
+
+Get All RaceCars
+
+.request
+include::{snippets}/get-all-racecar/http-request.adoc[]
+
+.response
+include::{snippets}/get-all-racecar/http-response.adoc[]
+
+Post Racecar
+
+.request
+include::{snippets}/post-race-car/http-request.adoc[]
+
+.response
+include::{snippets}/post-race-car/http-response.adoc[]
+
+Get Racecar by Id
+
+.request
+include::{snippets}/get-race-car-by-id/http-request.adoc[]
+
+.response
+include::{snippets}/get-race-car-by-id/http-response.adoc[]

@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -59,6 +62,7 @@ public class DeltaRaceCarIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(2)))
+                .andDo(document("get-all-racecar"))
                 .andDo(print());
     }
 
@@ -77,7 +81,10 @@ public class DeltaRaceCarIT {
         mockMvc.perform(postCar)
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("message").value("Car has been created."))
-                .andDo(print());
+                .andDo(print())
+                .andDo(document("post-race-car", responseFields(
+                fieldWithPath("message").description("Response Message")
+        )));
     }
 
     @Test
@@ -105,6 +112,7 @@ public class DeltaRaceCarIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("make").value("Galvanize"))
                 .andExpect(jsonPath("model").value("2021"))
+                .andDo(document("get-race-car-by-id"))
                 .andDo(print());
     }
 }

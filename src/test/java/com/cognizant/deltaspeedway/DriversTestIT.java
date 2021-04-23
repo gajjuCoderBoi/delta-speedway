@@ -3,16 +3,21 @@ package com.cognizant.deltaspeedway;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@AutoConfigureRestDocs
+@Transactional
 public class DriversTestIT {
 
     @Autowired
@@ -60,8 +67,22 @@ public class DriversTestIT {
         ).andExpect(status().isCreated());
         mockMvc.perform(get(String.format("/drivers/%s", vettel.getNickname()))
         ).andExpect(status().isOk())
-                .andExpect(jsonPath("$.nickname").value("tetrachampion"));
+                .andExpect(jsonPath("$.nickname").value("tetrachampion"))
+        .andDo(document("driver POST", responseFields(
+                fieldWithPath("firstName").description("Seb"),
+                fieldWithPath("lastName").description("vettel"),
+                fieldWithPath("age").description("22"),
+                fieldWithPath("nickname").description("tetrachampion"),
+                fieldWithPath("wins").description(4),
+                fieldWithPath("losses").description(1),
+                fieldWithPath("cars[].nickname").description("Condor"),
+                fieldWithPath("cars[].model").description("Corvette"),
+                fieldWithPath("cars[].year").description("2019"),
+                fieldWithPath("cars[].owner").description("27"),
+                fieldWithPath("cars[].status").description("AVAILABLE"),
+                fieldWithPath("cars[].top_speed").description(189)
 
+        )));
 
     }
 
