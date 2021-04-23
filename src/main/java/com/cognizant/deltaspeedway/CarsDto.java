@@ -1,12 +1,13 @@
 package com.cognizant.deltaspeedway;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
 public class CarsDto {
      String nickname;
      String model;
