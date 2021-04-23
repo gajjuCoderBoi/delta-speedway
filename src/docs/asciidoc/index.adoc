@@ -23,3 +23,12 @@ include::{snippets}/get-race-car-by-id/http-request.adoc[]
 
 .response
 include::{snippets}/get-race-car-by-id/http-response.adoc[]
+
+Get Driver by Nickname
+
+.request
+include::{snippets}/get-driver-by-nickname/http-request.adoc[]
+
+.response
+include::{snippets}/get-driver-by-nickname/http-response.adoc[]
+
